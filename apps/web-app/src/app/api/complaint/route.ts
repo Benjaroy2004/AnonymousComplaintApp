@@ -1,6 +1,7 @@
-import { Contract, InfuraProvider, JsonRpcProvider, Wallet } from "ethers"
+import { Contract, InfuraProvider, JsonRpcProvider, Wallet, decodeBytes32String } from "ethers"
 import { NextRequest } from "next/server"
 import Complaint from "../../../../contract-artifacts/Complaint.json"
+import { PrismaClient } from "../../../generated/prisma"
 
 export async function POST(req: NextRequest) {
     if (typeof process.env.ETHEREUM_PRIVATE_KEY !== "string") {
@@ -22,6 +23,8 @@ export async function POST(req: NextRequest) {
 
     const { complaint, merkleTreeDepth, merkleTreeRoot, nullifier, externalNullifier, points } = await req.json()
 
+    const prisma = new PrismaClient()
+
     try {
         const transaction = await contract.sendComplaint(
             merkleTreeDepth,
@@ -34,6 +37,16 @@ export async function POST(req: NextRequest) {
 
         await transaction.wait()
 
+        // Decode the complaint content from bytes32 to string
+        const decodedContent = decodeBytes32String(complaint)
+
+        // Store in database
+        await prisma.complaint.create({
+            data: {
+                content: decodedContent
+            }
+        })
+
         return new Response("Success", { status: 200 })
     } catch (error: any) {
         console.error(error)
@@ -41,5 +54,28 @@ export async function POST(req: NextRequest) {
         return new Response(`Server error: ${error}`, {
             status: 500
         })
+    } finally {
+        await prisma.$disconnect()
+    }
+}
+
+export async function GET() {
+    const prisma = new PrismaClient()
+
+    try {
+        const complaints = await prisma.complaint.findMany({
+            orderBy: { createdAt: "desc" }
+        })
+
+        return new Response(JSON.stringify(complaints), {
+            status: 200,
+            headers: { "Content-Type": "application/json" }
+        })
+    } catch (error: any) {
+        console.error(error)
+
+        return new Response(`Server error: ${error}`, { status: 500 })
+    } finally {
+        await prisma.$disconnect()
     }
 }

@@ -65,6 +65,7 @@ describe("Complaint", () => {
                 proof.merkleTreeRoot,
                 proof.nullifier,
                 complaint,
+                groupId,
                 proof.points
             )
 
