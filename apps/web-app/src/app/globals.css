@@ -311,6 +311,14 @@ a:hover {
     overflow-y: scroll;
 }
 
+.complaint-item {
+    border: 1px solid var(--slate-200);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--slate-50);
+}
+
 .keys-header {
     margin-bottom: 1.5rem;
 }

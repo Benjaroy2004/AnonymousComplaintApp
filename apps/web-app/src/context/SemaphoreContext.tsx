@@ -4,13 +4,24 @@ import React, { createContext, ReactNode, useCallback, useContext, useEffect, us
 import { SemaphoreEthers } from "@semaphore-protocol/data"
 import { decodeBytes32String, toBeHex } from "ethers"
 
+export type DbComplaint = {
+    id: string
+    content: string
+    status: string
+    createdAt: string
+    updatedAt: string
+}
+
 export type SemaphoreContextType = {
     _users: string[]
     _complaints: string[]
+    _dbComplaints: DbComplaint[]
     refreshUsers: () => Promise<void>
     addUser: (user: string) => void
     refreshComplaints: () => Promise<void>
     addComplaint: (complaint: string) => void
+    refreshDbComplaints: () => Promise<void>
+    addDbComplaint: (complaint: DbComplaint) => void
 }
 
 const SemaphoreContext = createContext<SemaphoreContextType | null>(null)
@@ -27,6 +38,7 @@ const ethereumNetwork =
 export const SemaphoreContextProvider: React.FC<ProviderProps> = ({ children }) => {
     const [_users, setUsers] = useState<any[]>([])
     const [_complaints, setComplaints] = useState<string[]>([])
+    const [_dbComplaints, setDbComplaints] = useState<DbComplaint[]>([])
 
     const refreshUsers = useCallback(async (): Promise<void> => {
         const semaphore = new SemaphoreEthers(ethereumNetwork, {
@@ -64,20 +76,43 @@ export const SemaphoreContextProvider: React.FC<ProviderProps> = ({ children }) 
         [_complaints]
     )
 
+    const refreshDbComplaints = useCallback(async (): Promise<void> => {
+        try {
+            const response = await fetch("/api/complaint")
+            if (response.ok) {
+                const complaints: DbComplaint[] = await response.json()
+                setDbComplaints(complaints)
+            }
+        } catch (error) {
+            console.error("Failed to fetch DB complaints:", error)
+        }
+    }, [])
+
+    const addDbComplaint = useCallback(
+        (complaint: DbComplaint) => {
+            setDbComplaints([complaint, ..._dbComplaints])
+        },
+        [_dbComplaints]
+    )
+
     useEffect(() => {
         refreshUsers()
         refreshComplaints()
-    }, [refreshComplaints, refreshUsers])
+        refreshDbComplaints()
+    }, [refreshComplaints, refreshUsers, refreshDbComplaints])
 
     return (
         <SemaphoreContext.Provider
             value={{
                 _users,
                 _complaints,
+                _dbComplaints,
                 refreshUsers,
                 addUser,
                 refreshComplaints,
-                addComplaint
+                addComplaint,
+                refreshDbComplaints,
+                addDbComplaint
             }}
         >
             {children}
