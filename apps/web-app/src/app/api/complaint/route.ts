@@ -20,10 +20,17 @@ export async function POST(req: NextRequest) {
     const signer = new Wallet(ethereumPrivateKey, provider)
     const contract = new Contract(contractAddress, Complaint.abi, signer)
 
-    const { complaint, merkleTreeDepth, merkleTreeRoot, nullifier, points } = await req.json()
+    const { complaint, merkleTreeDepth, merkleTreeRoot, nullifier, externalNullifier, points } = await req.json()
 
     try {
-        const transaction = await contract.sendComplaint(merkleTreeDepth, merkleTreeRoot, nullifier, complaint, points)
+        const transaction = await contract.sendComplaint(
+            merkleTreeDepth,
+            merkleTreeRoot,
+            nullifier,
+            complaint,
+            externalNullifier,
+            points
+        )
 
         await transaction.wait()
 

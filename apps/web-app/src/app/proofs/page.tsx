@@ -44,15 +44,20 @@ export default function ProofsPage() {
 
                 const message = encodeBytes32String(complaint)
 
+                // Generate unique external nullifier to allow multiple complaints per identity
+                const externalNullifier = ethers.keccak256(
+                    ethers.toUtf8Bytes(`${process.env.NEXT_PUBLIC_GROUP_ID}-${Date.now()}-${Math.random()}`)
+                )
+
                 const { points, merkleTreeDepth, merkleTreeRoot, nullifier } = await generateProof(
                     _identity,
                     group,
                     message,
-                    process.env.NEXT_PUBLIC_GROUP_ID as string
+                    externalNullifier
                 )
 
                 let complaintSent: boolean = false
-                const params = [merkleTreeDepth, merkleTreeRoot, nullifier, message, points]
+                const params = [merkleTreeDepth, merkleTreeRoot, nullifier, message, externalNullifier, points]
                 if (process.env.NEXT_PUBLIC_OPENZEPPELIN_AUTOTASK_WEBHOOK) {
                     const response = await fetch(process.env.NEXT_PUBLIC_OPENZEPPELIN_AUTOTASK_WEBHOOK, {
                         method: "POST",
@@ -98,6 +103,7 @@ export default function ProofsPage() {
                             merkleTreeDepth,
                             merkleTreeRoot,
                             nullifier,
+                            externalNullifier,
                             points
                         })
                     })

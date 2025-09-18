@@ -23,6 +23,7 @@ contract Complaint {
         uint256 merkleTreeRoot,
         uint256 nullifier,
         uint256 complaint,
+        uint256 externalNullifier,
         uint256[8] calldata points
     ) external {
         ISemaphore.SemaphoreProof memory proof = ISemaphore.SemaphoreProof(
@@ -30,7 +31,7 @@ contract Complaint {
             merkleTreeRoot,
             nullifier,
             complaint,
-            groupId,
+            externalNullifier,
             points
         );
 
