@@ -13,3 +13,11 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Complaint {
+  id        String   @id @default(cuid())
+  content   String   // Plain text complaint content
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    String?  @default("pending") // Optional: status for admin workflow
+}
