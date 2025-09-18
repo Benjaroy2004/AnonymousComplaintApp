@@ -39,11 +39,13 @@ export default function UsersPage() {
 
         setStateIdentity(true)
 
-        console.log("Identidad",_identity)
-
         localStorage.setItem("identity", identity.export())
     }
-    
+    //log que permite verificar que se genero la identidad
+    useEffect(() => {
+        console.log("Identidad", _identity)
+    }, [_identity])
+
     const isValidEcuadorianDNI = (dni: string) => {
         if (!/^\d{10}$/.test(dni)) return false;
         

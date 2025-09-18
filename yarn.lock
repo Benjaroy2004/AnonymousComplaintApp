@@ -2636,6 +2636,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@semaphore-protocol/cli-template-monorepo-ethers@workspace:."
   dependencies:
+    "@semaphore-protocol/proof": "npm:^4.13.1"
     prettier: "npm:^3.2.5"
   languageName: unknown
   linkType: soft
@@ -2710,7 +2711,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semaphore-protocol/proof@npm:4.13.1":
+"@semaphore-protocol/proof@npm:4.13.1, @semaphore-protocol/proof@npm:^4.13.1":
   version: 4.13.1
   resolution: "@semaphore-protocol/proof@npm:4.13.1"
   dependencies:
@@ -8971,6 +8972,7 @@ __metadata:
     "@types/node": "npm:^20.11.20"
     "@typescript-eslint/eslint-plugin": "npm:^7.0.2"
     "@typescript-eslint/parser": "npm:^7.0.2"
+    bcryptjs: "npm:^3.0.2"
     chai: "npm:^4.2.0"
     dotenv: "npm:^16.4.5"
     eslint: "npm:^8.57.0"

@@ -25,5 +25,8 @@
   "packageManager": "yarn@4.1.0",
   "devDependencies": {
     "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "@semaphore-protocol/proof": "^4.13.1"
   }
 }
