@@ -20,5 +20,11 @@ task("deploy", "Deploy a Complaint contract")
             console.info(`Complaint contract has been deployed to: ${await complaintContract.getAddress()}`)
         }
 
-        return complaintContract
+        const groupId = await complaintContract.getGroupId()
+
+        if (logs) {
+            console.info(`Group ID: ${groupId}`)
+        }
+
+        return { complaintContract, groupId }
     })

@@ -37,4 +37,8 @@ contract Complaint {
 
         semaphore.validateProof(groupId, proof);
     }
+
+    function getGroupId() external view returns (uint256) {
+        return groupId;
+    }
 }

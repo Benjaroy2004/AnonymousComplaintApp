@@ -8,23 +8,23 @@ import { Inter } from "next/font/google"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-    title: "Semaphore Demo",
-    description: "A zero-knowledge protocol for anonymous signaling on Ethereum.",
+    title: "Anonymous Complaint App",
+    description: "A zero-knowledge protocol for anonymous complaints on Ethereum.",
     icons: { icon: "/icon.svg", apple: "/apple-icon.png" },
-    metadataBase: new URL("https://demo.semaphore.pse.dev"),
+    metadataBase: new URL("http://localhost:3000"),
     openGraph: {
         type: "website",
-        url: "https://demo.semaphore.pse.dev",
-        title: "Semaphore Demo",
-        description: "A zero-knowledge protocol for anonymous signaling on Ethereum.",
-        siteName: "Semaphore Demo",
+        url: "http://localhost:3000",
+        title: "Anonymous Complaint App",
+        description: "A zero-knowledge protocol for anonymous complaints on Ethereum.",
+        siteName: "Anonymous Complaint App",
         images: [
             {
-                url: "https://demo.semaphore.pse.dev/social-media.png"
+                url: "http://localhost:3000/social-media.png"
             }
         ]
     },
-    twitter: { card: "summary_large_image", images: "https://demo.semaphore.pse.dev/social-media.png" }
+    twitter: { card: "summary_large_image", images: "http://localhost:3000/social-media.png" }
 }
 
 export default function RootLayout({

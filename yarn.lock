@@ -13,9 +13,9 @@ __metadata:
   linkType: hard
 
 "@adraffy/ens-normalize@npm:^1.10.1":
-  version: 1.11.0
-  resolution: "@adraffy/ens-normalize@npm:1.11.0"
-  checksum: 10/abef75f21470ea43dd6071168e092d2d13e38067e349e76186c78838ae174a46c3e18ca50921d05bea6ec3203074147c9e271f8cb6531d1c2c0e146f3199ddcb
+  version: 1.11.1
+  resolution: "@adraffy/ens-normalize@npm:1.11.1"
+  checksum: 10/dd19274d9fcaf99bf08a62b64e54f4748de11b235767addbd3f7385ae1b7777bd704d17ff003ffaa3295a0b9d035929381cf3b38329c96260bff96aab8ad7b37
   languageName: node
   linkType: hard
 
@@ -2732,15 +2732,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semaphore-protocol/cli-template-monorepo-ethers@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@semaphore-protocol/cli-template-monorepo-ethers@workspace:."
-  dependencies:
-    "@semaphore-protocol/proof": "npm:^4.13.1"
-    prettier: "npm:^3.2.5"
-  languageName: unknown
-  linkType: soft
-
 "@semaphore-protocol/contracts@npm:4.13.1":
   version: 4.13.1
   resolution: "@semaphore-protocol/contracts@npm:4.13.1"
@@ -3750,6 +3741,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"AnonymousComplaintApp@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "AnonymousComplaintApp@workspace:."
+  dependencies:
+    "@semaphore-protocol/proof": "npm:^4.13.1"
+    prettier: "npm:^3.2.5"
+  languageName: unknown
+  linkType: soft
+
 "abbrev@npm:1":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
@@ -3787,8 +3787,8 @@ __metadata:
   linkType: hard
 
 "abitype@npm:^1.0.6":
-  version: 1.1.0
-  resolution: "abitype@npm:1.1.0"
+  version: 1.1.1
+  resolution: "abitype@npm:1.1.1"
   peerDependencies:
     typescript: ">=5.0.4"
     zod: ^3.22.0 || ^4.0.0
@@ -3797,7 +3797,7 @@ __metadata:
       optional: true
     zod:
       optional: true
-  checksum: 10/fe445c095dcb255e32c50bb1342a49d32c03def8549347bfe7f73f54ebdc3198adf2af6366af89e1e9bd3d04beab3f22f35e099754655a6becd45e09ca30d375
+  checksum: 10/3193d4e228caf606e4c915858e0af78b0b2529fc3baa149c2516379db74c0f9e2ace1999bf479a515b4f8f06d27b1cf8fca37f60b4f73a251eedd7bcac11cf89
   languageName: node
   linkType: hard
 
@@ -4471,11 +4471,11 @@ __metadata:
   linkType: hard
 
 "baseline-browser-mapping@npm:^2.8.3":
-  version: 2.8.5
-  resolution: "baseline-browser-mapping@npm:2.8.5"
+  version: 2.8.6
+  resolution: "baseline-browser-mapping@npm:2.8.6"
   bin:
     baseline-browser-mapping: dist/cli.js
-  checksum: 10/e91681e6a4c5cf221b95a1e1e375ca5dd27aa1865213febc41ee2aa63a108d84a846114cfc8224b9dc30d9a94ef333ccbc47f2537dde073911cebb2c0dfc5231
+  checksum: 10/05c89fb1aa864a2a3b5fc9b7f3a4ed3e102ae4d6fa9ccf96a2b8f57fd0c995fb8b4e9ea3152b34c5661533a198026b713e1be415e96473322705b2fbd8dddc48
   languageName: node
   linkType: hard
 
@@ -5904,9 +5904,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.218":
-  version: 1.5.221
-  resolution: "electron-to-chromium@npm:1.5.221"
-  checksum: 10/5c569e293090d5bd7e6cae79e140e9e1e59f047d08e868b024a57d0a896109b417797eb6c7eae7e2f233ba47e0c9236263fb8b519283e38dee903f86c41f3b94
+  version: 1.5.222
+  resolution: "electron-to-chromium@npm:1.5.222"
+  checksum: 10/f1f7b21598ddf77a8e44f8e288bc0fb5c82c110ae1df7174a188ea7d2f81851d8e693d46ad2916e2ae0014b7368d331f8c5bee5175e572d7180f91153b251f8d
   languageName: node
   linkType: hard
 
