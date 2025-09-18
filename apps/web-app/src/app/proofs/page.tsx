@@ -7,49 +7,42 @@ import { generateProof, Group } from "@semaphore-protocol/core"
 import { encodeBytes32String, ethers } from "ethers"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import Feedback from "../../../contract-artifacts/Feedback.json"
+import Complaint from "../../../contract-artifacts/Complaint.json"
 import useSemaphoreIdentity from "@/hooks/useSemaphoreIdentity"
 import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function ProofsPage() {
     const router = useRouter()
     const { setLog } = useLogContext()
-    const { _users, _feedback, refreshFeedback, addFeedback } = useSemaphoreContext()
+    const { _users, _complaints, refreshComplaints, addComplaint } = useSemaphoreContext()
     const [_loading, setLoading] = useState(false)
     const { _identity } = useSemaphoreIdentity()
 
     useEffect(() => {
-        if (_feedback.length > 0) {
-            setLog(`${_feedback.length} feedback retrieved from the group 🤙🏽`)
+        if (_complaints.length > 0) {
+            setLog(`${_complaints.length} complaints retrieved from the group 🤙🏽`)
         }
-    }, [_feedback, setLog])
+    }, [_complaints, setLog])
 
-    const feedback = useMemo(() => [..._feedback].reverse(), [_feedback])
+    const complaints = useMemo(() => [..._complaints].reverse(), [_complaints])
 
-    const sendFeedback = useCallback(async () => {
+    const sendComplaint = useCallback(async () => {
         if (!_identity) {
             return
         }
 
-        const feedback = prompt("Please enter your feedback:")
+        const complaint = prompt("Please enter your complaint:")
 
-        if (feedback && _users) {
+        if (complaint && _users) {
             setLoading(true)
 
-            setLog(`Posting your anonymous feedback...`)
+            setLog(`Posting your anonymous complaint...`)
 
             try {
                 const group = new Group(_users)
 
-                const message = encodeBytes32String(feedback)
+                const message = encodeBytes32String(complaint)
 
                 const { points, merkleTreeDepth, merkleTreeRoot, nullifier } = await generateProof(
                     _identity,
@@ -58,33 +51,33 @@ export default function ProofsPage() {
                     process.env.NEXT_PUBLIC_GROUP_ID as string
                 )
 
-                let feedbackSent: boolean = false
+                let complaintSent: boolean = false
                 const params = [merkleTreeDepth, merkleTreeRoot, nullifier, message, points]
                 if (process.env.NEXT_PUBLIC_OPENZEPPELIN_AUTOTASK_WEBHOOK) {
                     const response = await fetch(process.env.NEXT_PUBLIC_OPENZEPPELIN_AUTOTASK_WEBHOOK, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                            abi: Feedback.abi,
-                            address: process.env.NEXT_PUBLIC_FEEDBACK_CONTRACT_ADDRESS,
-                            functionName: "sendFeedback",
+                            abi: Complaint.abi,
+                            address: process.env.NEXT_PUBLIC_COMPLAINT_CONTRACT_ADDRESS,
+                            functionName: "sendComplaint",
                             functionParameters: params
                         })
                     })
 
                     if (response.status === 200) {
-                        feedbackSent = true
+                        complaintSent = true
                     }
                 } else if (
                     process.env.NEXT_PUBLIC_GELATO_RELAYER_ENDPOINT &&
                     process.env.NEXT_PUBLIC_GELATO_RELAYER_CHAIN_ID &&
                     process.env.GELATO_RELAYER_API_KEY
                 ) {
-                    const iface = new ethers.Interface(Feedback.abi)
+                    const iface = new ethers.Interface(Complaint.abi)
                     const request = {
                         chainId: process.env.NEXT_PUBLIC_GELATO_RELAYER_CHAIN_ID,
-                        target: process.env.NEXT_PUBLIC_FEEDBACK_CONTRACT_ADDRESS,
-                        data: iface.encodeFunctionData("sendFeedback", params),
+                        target: process.env.NEXT_PUBLIC_COMPLAINT_CONTRACT_ADDRESS,
+                        data: iface.encodeFunctionData("sendComplaint", params),
                         sponsorApiKey: process.env.GELATO_RELAYER_API_KEY
                     }
                     const response = await fetch(process.env.NEXT_PUBLIC_GELATO_RELAYER_ENDPOINT, {
@@ -94,14 +87,14 @@ export default function ProofsPage() {
                     })
 
                     if (response.status === 201) {
-                        feedbackSent = true
+                        complaintSent = true
                     }
                 } else {
-                    const response = await fetch("api/feedback", {
+                    const response = await fetch("api/complaint", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                            feedback: message,
+                            complaint: message,
                             merkleTreeDepth,
                             merkleTreeRoot,
                             nullifier,
@@ -110,14 +103,14 @@ export default function ProofsPage() {
                     })
 
                     if (response.status === 200) {
-                        feedbackSent = true
+                        complaintSent = true
                     }
                 }
 
-                if (feedbackSent) {
-                    addFeedback(feedback)
+                if (complaintSent) {
+                    addComplaint(complaint)
 
-                    setLog(`Your feedback has been posted 🎉`)
+                    setLog(`Your complaint has been posted 🎉`)
                 } else {
                     setLog("Some error occurred, please try again!")
                 }
@@ -129,34 +122,34 @@ export default function ProofsPage() {
                 setLoading(false)
             }
         }
-    }, [_identity, _users, addFeedback, setLoading, setLog])
+    }, [_identity, _users, addComplaint, setLoading, setLog])
 
     return (
         <>
-        <div className="container">
+            <div className="container">
                 <Card className="w-full max-w-2xl mx-auto my-auto">
                     <CardHeader>
                         <CardTitle className="text-center">Proofs</CardTitle>
                         <CardDescription>
-                        <p>
-                            Semaphore members can anonymously{" "}
-                            <a
-                                href="https://docs.semaphore.pse.dev/guides/proofs"
-                                target="_blank"
-                                rel="noreferrer noopener nofollow"
-                            >
-                                prove
-                            </a>{" "}
-                            that they are part of a group and send their anonymous messages. Messages could be votes, leaks,
-                            reviews, feedback, etc.
-                        </p>
+                            <p>
+                                Semaphore members can anonymously{" "}
+                                <a
+                                    href="https://docs.semaphore.pse.dev/guides/proofs"
+                                    target="_blank"
+                                    rel="noreferrer noopener nofollow"
+                                >
+                                    prove
+                                </a>{" "}
+                                that they are part of a group and send their anonymous messages. Messages could be
+                                votes, leaks, reviews, complaints, etc.
+                            </p>
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col gap-6">
                             <div className="text-top">
-                                <h3>Feedback ({_feedback.length})</h3>
-                                <button className="refresh-button" onClick={refreshFeedback}>
+                                <h3>Complaints ({_complaints.length})</h3>
+                                <button className="refresh-button" onClick={refreshComplaints}>
                                     <span className="refresh-span">
                                         <svg viewBox="0 0 24 24" focusable="false" className="refresh-icon">
                                             <path
@@ -169,11 +162,11 @@ export default function ProofsPage() {
                                 </button>
                             </div>
 
-                            {feedback.length > 0 && (
-                                <div className="feedback-wrapper">
-                                    {feedback.map((f, i) => (
+                            {complaints.length > 0 && (
+                                <div className="complaint-wrapper">
+                                    {complaints.map((c, i) => (
                                         <div key={i}>
-                                            <p className="box box-text break-all">{f}</p>
+                                            <p className="box box-text break-all">{c}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -182,15 +175,15 @@ export default function ProofsPage() {
                     </CardContent>
                     <CardFooter className="flex-col gap-2">
                         <div>
-                            <button className="button" onClick={sendFeedback} disabled={_loading}>
-                                <span>Send Feedback</span>
+                            <button className="button" onClick={sendComplaint} disabled={_loading}>
+                                <span>Send Complaint</span>
                                 {_loading && <div className="loader"></div>}
                             </button>
                             <Stepper step={3} onPrevClick={() => router.push("/group")} />
                         </div>
                     </CardFooter>
-                </Card>           
-        </div>
+                </Card>
+            </div>
         </>
     )
 }

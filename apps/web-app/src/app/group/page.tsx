@@ -4,19 +4,12 @@ import { useLogContext } from "@/context/LogContext"
 import { useSemaphoreContext } from "@/context/SemaphoreContext"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useMemo } from "react"
-import Feedback from "../../../contract-artifacts/Feedback.json"
+import Complaint from "../../../contract-artifacts/Complaint.json"
 import { ethers } from "ethers"
 import useSemaphoreIdentity from "@/hooks/useSemaphoreIdentity"
 import { useState } from "react"
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function GroupsPage() {
     const router = useRouter()
@@ -39,7 +32,7 @@ export default function GroupsPage() {
         }
 
         setLoading(true)
-        setLog(`Joining the Feedback group...`)
+        setLog(`Joining the Complaint group...`)
 
         let joinedGroup: boolean = false
 
@@ -48,8 +41,8 @@ export default function GroupsPage() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    abi: Feedback.abi,
-                    address: process.env.NEXT_PUBLIC_FEEDBACK_CONTRACT_ADDRESS as string,
+                    abi: Complaint.abi,
+                    address: process.env.NEXT_PUBLIC_COMPLAINT_CONTRACT_ADDRESS as string,
                     functionName: "joinGroup",
                     functionParameters: [_identity.commitment.toString()]
                 })
@@ -63,10 +56,10 @@ export default function GroupsPage() {
             process.env.NEXT_PUBLIC_GELATO_RELAYER_CHAIN_ID &&
             process.env.GELATO_RELAYER_API_KEY
         ) {
-            const iface = new ethers.Interface(Feedback.abi)
+            const iface = new ethers.Interface(Complaint.abi)
             const request = {
                 chainId: process.env.NEXT_PUBLIC_GELATO_RELAYER_CHAIN_ID,
-                target: process.env.NEXT_PUBLIC_FEEDBACK_CONTRACT_ADDRESS,
+                target: process.env.NEXT_PUBLIC_COMPLAINT_CONTRACT_ADDRESS,
                 data: iface.encodeFunctionData("joinGroup", [_identity.commitment.toString()]),
                 sponsorApiKey: process.env.GELATO_RELAYER_API_KEY
             }
@@ -96,7 +89,7 @@ export default function GroupsPage() {
         if (joinedGroup) {
             addUser(_identity.commitment.toString())
 
-            setLog(`You have joined the Feedback group event 🎉 Share your feedback anonymously!`)
+            setLog(`You have joined the Complaint group event 🎉 Share your complaint anonymously!`)
         } else {
             setLog("Some error occurred, please try again!")
         }
@@ -111,30 +104,30 @@ export default function GroupsPage() {
 
     return (
         <>
-        <div className="container">
+            <div className="container">
                 <Card className="w-full max-w-2xl mx-auto my-auto">
                     <CardHeader>
                         <CardTitle className="text-center">Groups</CardTitle>
                         <CardDescription>
-                        <p>
-                            <a
-                                href="https://docs.semaphore.pse.dev/guides/groups"
-                                target="_blank"
-                                rel="noreferrer noopener nofollow"
-                            >
-                                Semaphore groups
-                            </a>{" "}
-                            are{" "}
-                            <a
-                                href="https://zkkit.pse.dev/classes/_zk_kit_lean_imt.LeanIMT.html"
-                                target="_blank"
-                                rel="noreferrer noopener nofollow"
-                            >
-                                Lean incremental Merkle trees
-                            </a>{" "}
-                            in which each leaf contains an identity commitment for a user. Groups can be abstracted to represent
-                            events, polls, or organizations.
-                        </p>
+                            <p>
+                                <a
+                                    href="https://docs.semaphore.pse.dev/guides/groups"
+                                    target="_blank"
+                                    rel="noreferrer noopener nofollow"
+                                >
+                                    Semaphore groups
+                                </a>{" "}
+                                are{" "}
+                                <a
+                                    href="https://zkkit.pse.dev/classes/_zk_kit_lean_imt.LeanIMT.html"
+                                    target="_blank"
+                                    rel="noreferrer noopener nofollow"
+                                >
+                                    Lean incremental Merkle trees
+                                </a>{" "}
+                                in which each leaf contains an identity commitment for a user. Groups can be abstracted
+                                to represent events, polls, or organizations.
+                            </p>
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -185,8 +178,8 @@ export default function GroupsPage() {
                             />
                         </div>
                     </CardFooter>
-                </Card>           
-        </div>
+                </Card>
+            </div>
         </>
     )
 }

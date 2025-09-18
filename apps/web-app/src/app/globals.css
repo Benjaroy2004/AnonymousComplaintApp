@@ -75,7 +75,6 @@ b {
     min-height: calc(100vh - 3.5rem);
 }
 
-
 .container #body {
     margin-top: 3rem;
 }
@@ -100,7 +99,7 @@ h3 {
 }
 
 h4 {
-    font-size: 1,15rem;
+    font-size: 1.15rem;
     font-weight: 500;
     color: black;
 }
@@ -307,7 +306,7 @@ a:hover {
 }
 
 .users-wrapper,
-.feedback-wrapper {
+.complaint-wrapper {
     max-height: 300px;
     overflow-y: scroll;
 }
@@ -323,7 +322,7 @@ a:hover {
 }
 
 .join-group-button,
-.send-feedback-button {
+.send-complaint-button {
     margin-top: 1.5rem;
 }
 
@@ -379,10 +378,8 @@ a:hover {
     }
 }
 
-
-
 @layer base {
-  :root {
+    :root {
         --background: 0 0% 100%;
         --foreground: 0 0% 3.9%;
         --card: 0 0% 100%;
@@ -409,7 +406,7 @@ a:hover {
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
     }
-  .dark {
+    .dark {
         --background: 0 0% 3.9%;
         --foreground: 0 0% 98%;
         --card: 0 0% 3.9%;
@@ -437,13 +434,11 @@ a:hover {
     }
 }
 
-
-
 @layer base {
-  * {
-    @apply border-border;
+    * {
+        @apply border-border;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
 }

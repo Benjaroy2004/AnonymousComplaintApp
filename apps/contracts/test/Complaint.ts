@@ -5,36 +5,36 @@ import { encodeBytes32String } from "ethers"
 import { run } from "hardhat"
 // @ts-ignore: typechain folder will be generated after contracts compilation
 // eslint-disable-next-line
-import { Feedback, ISemaphore } from "../typechain-types"
+import { Complaint, ISemaphore } from "../typechain-types"
 
-describe("Feedback", () => {
-    async function deployFeedbackFixture() {
+describe("Complaint", () => {
+    async function deployComplaintFixture() {
         const { semaphore } = await run("deploy:semaphore", {
             logs: false
         })
 
         const semaphoreContract: ISemaphore = semaphore
 
-        const feedbackContract: Feedback = await run("deploy", {
+        const complaintContract: Complaint = await run("deploy", {
             logs: false,
             semaphore: await semaphoreContract.getAddress()
         })
 
-        const groupId = await feedbackContract.groupId()
+        const groupId = await complaintContract.groupId()
 
-        return { semaphoreContract, feedbackContract, groupId }
+        return { semaphoreContract, complaintContract, groupId }
     }
 
     describe("# joinGroup", () => {
         it("Should allow users to join the group", async () => {
-            const { semaphoreContract, feedbackContract, groupId } = await loadFixture(deployFeedbackFixture)
+            const { semaphoreContract, complaintContract, groupId } = await loadFixture(deployComplaintFixture)
 
             const users = [new Identity(), new Identity()]
 
             const group = new Group()
 
             for (const [i, user] of users.entries()) {
-                const transaction = await feedbackContract.joinGroup(user.commitment)
+                const transaction = await complaintContract.joinGroup(user.commitment)
                 group.addMember(user.commitment)
 
                 await expect(transaction)
@@ -44,27 +44,27 @@ describe("Feedback", () => {
         })
     })
 
-    describe("# sendFeedback", () => {
-        it("Should allow users to send feedback anonymously", async () => {
-            const { semaphoreContract, feedbackContract, groupId } = await loadFixture(deployFeedbackFixture)
+    describe("# sendComplaint", () => {
+        it("Should allow users to send complaint anonymously", async () => {
+            const { semaphoreContract, complaintContract, groupId } = await loadFixture(deployComplaintFixture)
 
             const users = [new Identity(), new Identity()]
             const group = new Group()
 
             for (const user of users) {
-                await feedbackContract.joinGroup(user.commitment)
+                await complaintContract.joinGroup(user.commitment)
                 group.addMember(user.commitment)
             }
 
-            const feedback = encodeBytes32String("Hello World")
+            const complaint = encodeBytes32String("Hello World")
 
-            const proof = await generateProof(users[1], group, feedback, groupId)
+            const proof = await generateProof(users[1], group, complaint, groupId)
 
-            const transaction = feedbackContract.sendFeedback(
+            const transaction = complaintContract.sendComplaint(
                 proof.merkleTreeDepth,
                 proof.merkleTreeRoot,
                 proof.nullifier,
-                feedback,
+                complaint,
                 proof.points
             )
 

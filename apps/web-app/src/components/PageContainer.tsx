@@ -27,14 +27,12 @@ export default function PageContainer({
     return (
         <>
             <div className="header">
-                <Link href="/" className="header-left">
-                    
-                </Link>
+                <Link href="/" className="header-left"></Link>
                 <div className="header-right">
                     <a
                         href={getExplorerLink(
                             process.env.NEXT_PUBLIC_DEFAULT_NETWORK as string,
-                            process.env.NEXT_PUBLIC_FEEDBACK_CONTRACT_ADDRESS as string
+                            process.env.NEXT_PUBLIC_COMPLAINT_CONTRACT_ADDRESS as string
                         )}
                         target="_blank"
                         rel="noreferrer noopener nofollow"

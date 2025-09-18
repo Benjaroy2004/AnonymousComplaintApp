@@ -6,11 +6,11 @@ import { decodeBytes32String, toBeHex } from "ethers"
 
 export type SemaphoreContextType = {
     _users: string[]
-    _feedback: string[]
+    _complaints: string[]
     refreshUsers: () => Promise<void>
     addUser: (user: string) => void
-    refreshFeedback: () => Promise<void>
-    addFeedback: (feedback: string) => void
+    refreshComplaints: () => Promise<void>
+    addComplaint: (complaint: string) => void
 }
 
 const SemaphoreContext = createContext<SemaphoreContextType | null>(null)
@@ -26,7 +26,7 @@ const ethereumNetwork =
 
 export const SemaphoreContextProvider: React.FC<ProviderProps> = ({ children }) => {
     const [_users, setUsers] = useState<any[]>([])
-    const [_feedback, setFeedback] = useState<string[]>([])
+    const [_complaints, setComplaints] = useState<string[]>([])
 
     const refreshUsers = useCallback(async (): Promise<void> => {
         const semaphore = new SemaphoreEthers(ethereumNetwork, {
@@ -46,7 +46,7 @@ export const SemaphoreContextProvider: React.FC<ProviderProps> = ({ children }) 
         [_users]
     )
 
-    const refreshFeedback = useCallback(async (): Promise<void> => {
+    const refreshComplaints = useCallback(async (): Promise<void> => {
         const semaphore = new SemaphoreEthers(ethereumNetwork, {
             address: process.env.NEXT_PUBLIC_SEMAPHORE_CONTRACT_ADDRESS,
             projectId: process.env.NEXT_PUBLIC_INFURA_API_KEY
@@ -54,30 +54,30 @@ export const SemaphoreContextProvider: React.FC<ProviderProps> = ({ children }) 
 
         const proofs = await semaphore.getGroupValidatedProofs(process.env.NEXT_PUBLIC_GROUP_ID as string)
 
-        setFeedback(proofs.map(({ message }: any) => decodeBytes32String(toBeHex(message, 32))))
+        setComplaints(proofs.map(({ message }: any) => decodeBytes32String(toBeHex(message, 32))))
     }, [])
 
-    const addFeedback = useCallback(
-        (feedback: string) => {
-            setFeedback([..._feedback, feedback])
+    const addComplaint = useCallback(
+        (complaint: string) => {
+            setComplaints([..._complaints, complaint])
         },
-        [_feedback]
+        [_complaints]
     )
 
     useEffect(() => {
         refreshUsers()
-        refreshFeedback()
-    }, [refreshFeedback, refreshUsers])
+        refreshComplaints()
+    }, [refreshComplaints, refreshUsers])
 
     return (
         <SemaphoreContext.Provider
             value={{
                 _users,
-                _feedback,
+                _complaints,
                 refreshUsers,
                 addUser,
-                refreshFeedback,
-                addFeedback
+                refreshComplaints,
+                addComplaint
             }}
         >
             {children}
