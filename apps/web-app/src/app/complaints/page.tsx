@@ -108,7 +108,7 @@ export default function ComplaintsPage() {
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <div className="flex gap-4">
-                        <Button onClick={() => router.push("/proofs")}>Submit New Complaint</Button>
+                        <Button onClick={() => router.push("/users")}>Submit New Complaint</Button>
                         <Button variant="outline" onClick={() => router.push("/")}>
                             Back to Home
                         </Button>
