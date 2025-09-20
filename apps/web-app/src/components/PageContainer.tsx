@@ -4,6 +4,7 @@ import { useLogContext } from "@/context/LogContext"
 import shortenString from "@/utils/shortenString"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function PageContainer({
     children
@@ -12,6 +13,7 @@ export default function PageContainer({
 }>) {
     const pathname = usePathname()
     const { log } = useLogContext()
+    const router = useRouter()
 
     function getExplorerLink(network: string, address: string) {
         switch (network) {
@@ -28,19 +30,23 @@ export default function PageContainer({
         <>
             <div className="header">
                 <Link href="/" className="header-left"></Link>
-                <div className="header-right">
-                    <a
-                        href={getExplorerLink(
-                            process.env.NEXT_PUBLIC_DEFAULT_NETWORK as string,
-                            process.env.NEXT_PUBLIC_COMPLAINT_CONTRACT_ADDRESS as string
-                        )}
-                        target="_blank"
-                        rel="noreferrer noopener nofollow"
-                    >
-                        <div>
-                            <h4>AnonymousComplaintApp</h4>
+                <div className="header-right row">
+
+                        <div className="flex row gap-2">
+
+                            <div>
+                                <button
+                                    className="button"
+                                    onClick={() => router.push("/admin/complaints")}
+                                >
+                                    <span>Login Admin</span>
+                                </button>
+                            </div>
+                            <div className="flex items-center">
+                                <h4>AnonymousComplaintApp</h4>
+                            </div>
                         </div>
-                    </a>
+                    
                     <a
                         href="https://github.com/DanGustavo1234/AnonymousComplaintApp.git"
                         target="_blank"

@@ -17,7 +17,6 @@ import { useState } from "react";
 import { CheckCircle2Icon } from "lucide-react";
 import { Identity } from "@semaphore-protocol/core"
 import { useLogContext } from "@/context/LogContext"
-import { useEffect } from "react"
 // bcrypt
 import bcrypt from "bcryptjs"
 
@@ -39,14 +38,13 @@ export default function UsersPage() {
 
         setStateIdentity(true)
 
-        localStorage.setItem("identity", identity.export())
-    }
-    //log que permite verificar que se genero la identidad
-    useEffect(() => {
-        console.log("Identidad", _identity)
-    }, [_identity])
+        console.log("Identidad",_identity)
 
-    const isValidEcuadorianDNI = (dni: string) => {
+        localStorage.setItem("identity", identity.export())
+        return identity
+    }
+    
+    const isValidEcuadorianDNI = (dni: string) => async () => {
         if (!/^\d{10}$/.test(dni)) return false;
         
         const digits = dni.split('').map(Number);
@@ -60,7 +58,17 @@ export default function UsersPage() {
         }
         
         const checkDigit = (10 - (sum % 10)) % 10;
-        return checkDigit === digits[9];
+        const isValidCheckDigit = checkDigit === digits[9];
+        
+        if (isValidCheckDigit===true) {
+            const createIdentityResult = await createIdentity(dni)()
+            console.log("createIdentityResult",createIdentityResult)
+            setIsValid(true)
+            return true
+        } else {
+            setIsValid(false)
+            return false
+        }
       };
 
 
@@ -113,18 +121,10 @@ export default function UsersPage() {
             <Button 
                 type="button" 
                 className="button" 
-                onClick={() => setIsValid(isValidEcuadorianDNI(dni))}
+                onClick={() => isValidEcuadorianDNI(dni)()}
             >
                 Verify
             </Button>
-            {isValid && (
-                <Button 
-                    className="button" 
-                    onClick={createIdentity(dni)}
-                >
-                    Create Identity
-                </Button>
-            )}
             {/* Next step */}
             {stateIdentity && (
                 <Button 
