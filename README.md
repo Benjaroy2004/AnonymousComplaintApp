@@ -1,56 +1,97 @@
-# Semaphore Hardhat + Next.js + SemaphoreEthers template
+# Anonymous Complaint App
 
-This project is a complete application that demonstrates a basic Semaphore use case. It comes with a sample contract, a test for that contract and a sample task that deploys that contract. It also contains a frontend to play around with the contract.
+## Problem Description
 
-## Install
+This application enables users to submit anonymous complaints using zero-knowledge proofs, ensuring that sensitive reports can be made without revealing the submitter's identity. It addresses the challenge of whistleblowing and reporting misconduct in organizations or communities where fear of retaliation might otherwise prevent disclosures. By leveraging blockchain technology and cryptographic anonymity, it provides a secure platform for transparent yet private communication.
 
-### Install dependencies
+## Technology Stack
+
+- **Semaphore**: For zero-knowledge proof-based anonymity
+- **Hardhat**: Ethereum development environment for smart contracts
+- **Next.js**: React framework for the frontend application
+- **Prisma**: Database ORM for data management
+- **TypeScript**: Type-safe JavaScript for better development experience
+- **Tailwind CSS**: Utility-first CSS framework for styling
+- **Ethereum/Sepolia**: Testnet for deploying and testing smart contracts
+
+## Instructions for Running the Prototype
+
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- Yarn package manager
+- A Sepolia testnet account with some ETH for deployment
+
+### 1. Install Dependencies
 
 ```bash
 yarn
 ```
 
-## 📜 Usage
+### 2. Set Up Environment Variables
 
-### Local server
+- Copy `.env.example` to `.env.development` and `.env.production`
+- Configure your Sepolia RPC URL, private key, and other necessary variables
 
-You can start your app locally with:
+### 3. Deploy the Contract
+
+1. Navigate to the contracts directory:
 
 ```bash
-yarn dev
+cd apps/contracts
 ```
 
-### Deploy the contract
-
-1. Go to the `apps/contracts` directory and deploy your contract:
+2. Deploy the contract to Sepolia:
 
 ```bash
 yarn deploy --semaphore <semaphore-address> --network sepolia
 ```
 
-2. Update your `apps/web-app/.env.production` file with your new contract address and the group id.
-
-3. Copy your contract artifacts from `apps/contracts/artifacts/contracts/` folder to `apps/web-app/contract-artifacts` folder manually.
-
 > [!NOTE]
 > Check the Semaphore contract addresses [here](https://docs.semaphore.pse.dev/deployed-contracts).
 
-### Code quality and formatting
+3. Update `apps/web-app/.env.production` with the new contract address and group ID.
 
-Run [ESLint](https://eslint.org/) and [solhint](https://github.com/protofire/solhint) to analyze the code and catch bugs:
+4. Copy contract artifacts:
+
+```bash
+cp artifacts/contracts/Complaint.sol/Complaint.json ../web-app/contract-artifacts/
+```
+
+### 4. Run the Application
+
+Start the development server:
+
+```bash
+yarn dev
+```
+
+The application will be available at `http://localhost:3000`.
+
+### 5. Access Features
+
+- **Complaints Page**: Submit anonymous complaints
+- **Admin Page**: View and manage complaints (requires admin access)
+- **Group Management**: Join or create complaint groups
+- **Proofs**: Verify complaint authenticity
+
+### Code Quality
+
+Run linting and formatting:
 
 ```bash
 yarn lint
-```
-
-Run [Prettier](https://prettier.io/) to check formatting rules:
-
-```bash
 yarn prettier
+yarn prettier:write  # To auto-format
 ```
 
-Or to automatically format the code:
+## Roadmap
 
-```bash
-yarn prettier:write
-```
+- **Multi-Group Support**: Allow users to participate in multiple complaint groups
+- **Complaint Verification**: Implement additional verification mechanisms for submitted complaints
+- **Admin Moderation Tools**: Enhanced dashboard for administrators to manage and categorize complaints
+- **Integration with Other Blockchains**: Support for additional networks beyond Ethereum
+- **Mobile Application**: Native mobile app for easier access
+- **Advanced Analytics**: Dashboard for analyzing complaint trends and patterns
+- **Notification System**: Real-time notifications for complaint updates
+- **Audit Trail**: Immutable logging of complaint lifecycle for transparency
