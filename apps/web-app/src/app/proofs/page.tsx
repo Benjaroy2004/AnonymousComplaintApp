@@ -180,11 +180,19 @@ export default function ProofsPage() {
                         </div>
                     </CardContent>
                     <CardFooter className="flex-col gap-2">
-                        <div>
+                        <div className="flex gap-2">
                             <button className="button" onClick={sendComplaint} disabled={_loading}>
                                 <span>Send Complaint</span>
                                 {_loading && <div className="loader"></div>}
                             </button>
+                            <button
+                                className="button"
+                                onClick={() => router.push("/complaints")}
+                            >
+                                <span>View Complaints</span>
+                            </button>
+                        </div>
+                        <div>
                             <Stepper step={3} onPrevClick={() => router.push("/group")} />
                         </div>
                     </CardFooter>
