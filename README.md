@@ -1,13 +1,36 @@
-# Anonymous Complaint App
-
-## Problem Description
+# AnonymousComplaintApp
 
 This application enables users to submit anonymous complaints using zero-knowledge proofs, ensuring that sensitive reports can be made without revealing the submitter's identity. It addresses the challenge of whistleblowing and reporting misconduct in organizations or communities where fear of retaliation might otherwise prevent disclosures. By leveraging blockchain technology and cryptographic anonymity, it provides a secure platform for transparent yet private communication.
 
-## Project Description
+## Team Information
 
-This project is an anonymous complaint submission system built with Semaphore for zero-knowledge proofs, enabling users
-to submit complaints without revealing their identity.
+**Project Members**
+
+    -Name: Daniel Gustavo Cordoba Jaramillo
+    -Github Username: rickalx
+    -
+ 
+  - X (Twitter) Handle: {X}
+  - Role: {Role}
+
+## Technical Approach
+
+- **Components** (Select all that apply)
+  - [X] Frontend
+  - [X] Backend
+  - [X] Smart Contracts
+  - [X] ZK Circuits
+  - [ ] Machine Learning (ML)
+
+
+## Tech Stack
+-**Semaphore**: For zero-knowledge proof-based anonymity
+- **Hardhat**: Ethereum development environment for smart contracts
+- **Next.js**: React framework for the frontend application
+- **Prisma**: Database ORM for data management
+- **TypeScript**: Type-safe JavaScript for better development experience
+- **Tailwind CSS**: Utility-first CSS framework for styling
+- **Ethereum/Sepolia**: Testnet for deploying and testing smart contracts
 
 ### Identities
 
@@ -48,94 +71,24 @@ timestamps, and status (e.g., pending, resolved).
 • User identities (private keys) in browser localStorage.
 • Proofs are validated on-chain but not stored as full records off-chain beyond the database entries.
 
-## Technology Stack
 
-- **Semaphore**: For zero-knowledge proof-based anonymity
-- **Hardhat**: Ethereum development environment for smart contracts
-- **Next.js**: React framework for the frontend application
-- **Prisma**: Database ORM for data management
-- **TypeScript**: Type-safe JavaScript for better development experience
-- **Tailwind CSS**: Utility-first CSS framework for styling
-- **Ethereum/Sepolia**: Testnet for deploying and testing smart contracts
+## What do you plan to achieve with your project?
 
-## Instructions for Running the Prototype
+It would be great to keep working on the project, theres a lot of ideas to improve
+the application like adding a reputation system to filter submitions 
 
-### Prerequisites
+## Lessons Learned (For Submission)
 
-- Node.js (version 18 or higher)
-- Yarn package manager
-- A Sepolia testnet account with some ETH for deployment
+- ZKproofs are useful to ensure peoples complaints about corruption and delinquency
+    protecting their identities from bad practices and retaliation.
 
-### 1. Install Dependencies
+- the management of the data, since uploading documents to the blockchain may entail
+    high gass cost, its a good practice to first determine what we want on chain
 
-```bash
-yarn
-```
+## Project Links (For Submission)
 
-### 2. Set Up Environment Variables
+https://github.com/rickalx/AnonymousComplaintApp.git
 
-- Copy `.env.example` to `.env.development` and `.env.production`
-- Configure your Sepolia RPC URL, private key, and other necessary variables
+## Video Demo (For Submission)
 
-### 3. Deploy the Contract
-
-1. Navigate to the contracts directory:
-
-```bash
-cd apps/contracts
-```
-
-2. Deploy the contract to Sepolia:
-
-```bash
-yarn deploy --semaphore <semaphore-address> --network sepolia
-```
-
-> [!NOTE]
-> Check the Semaphore contract addresses [here](https://docs.semaphore.pse.dev/deployed-contracts).
-
-3. Update `apps/web-app/.env.production` with the new contract address and group ID.
-
-4. Copy contract artifacts:
-
-```bash
-cp artifacts/contracts/Complaint.sol/Complaint.json ../web-app/contract-artifacts/
-```
-
-### 4. Run the Application
-
-Start the development server:
-
-```bash
-yarn dev
-```
-
-The application will be available at `http://localhost:3000`.
-
-### 5. Access Features
-
-- **Complaints Page**: Submit anonymous complaints
-- **Admin Page**: View and manage complaints (requires admin access)
-- **Group Management**: Join or create complaint groups
-- **Proofs**: Verify complaint authenticity
-
-### Code Quality
-
-Run linting and formatting:
-
-```bash
-yarn lint
-yarn prettier
-yarn prettier:write  # To auto-format
-```
-
-## Roadmap
-
-- **Multi-Group Support**: Allow users to participate in multiple complaint groups
-- **Complaint Verification**: Implement additional verification mechanisms for submitted complaints
-- **Admin Moderation Tools**: Enhanced dashboard for administrators to manage and categorize complaints
-- **Integration with Other Blockchains**: Support for additional networks beyond Ethereum
-- **Mobile Application**: Native mobile app for easier access
-- **Advanced Analytics**: Dashboard for analyzing complaint trends and patterns
-- **Notification System**: Real-time notifications for complaint updates
-- **Audit Trail**: Immutable logging of complaint lifecycle for transparency
+Please provide a link to a video demo of your project. The demo should be no longer than 5 minutes.
